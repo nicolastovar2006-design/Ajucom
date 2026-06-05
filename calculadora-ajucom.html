@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Inversión — AJUCOM Inmobiliaria</title>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nicolastovar2006-design.github.io/Ajucom/calculadora-ajucom.html">
+<meta property="og:title" content="Calculadora de Inversión — AJUCOM Inmobiliaria">
+<meta property="og:description" content="Analiza en segundos si un inmueble es rentable. Herramienta gratuita de AJUCOM Inmobiliaria, Cali.">
+<meta property="og:image" content="https://nicolastovar2006-design.github.io/Ajucom/Aprobado01.jpg">
+<meta property="og:image:width" content="1036">
+<meta property="og:image:height" content="499">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nicolastovar2006-design.github.io/Ajucom/Aprobado01.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#080a0c;
+  --ink2:#0f1114;
+  --ink3:#161a1e;
+  --gold:#c9a84c;
+  --gold-dim:rgba(201,168,76,0.2);
+  --gold-faint:rgba(201,168,76,0.07);
+  --white:#f0ece3;
+  --ash:#7a746e;
+  --ash2:#4a4540;
+  --green:#2e7a50;
+  --green-bg:rgba(46,122,80,0.12);
+  --amber:#c47f15;
+  --amber-bg:rgba(196,127,21,0.12);
+  --red:#9b2a2a;
+  --red-bg:rgba(155,42,42,0.12);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--white);font-family:var(--sans);font-size:15px;line-height:1.6;min-height:100vh}
+
+/* ── HEADER ── */
+.header{background:var(--ink2);border-bottom:1px solid var(--gold-dim);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.header-brand{font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--gold);letter-spacing:.04em}
+.header-sub{font-size:.7rem;letter-spacing:.2em;color:var(--ash);margin-top:2px}
+
+/* ── HERO STRIP ── */
+.hero-strip{background:var(--ink2);border-bottom:1px solid rgba(255,255,255,.04);padding:2rem 2rem 2.5rem}
+.hero-strip h1{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:.5rem}
+.hero-strip h1 em{font-style:italic;color:var(--gold)}
+.hero-strip p{font-size:.83rem;color:var(--ash);max-width:500px;line-height:1.6}
+
+/* ── LAYOUT ── */
+.main{max-width:900px;margin:0 auto;padding:2rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:640px){.grid-2{grid-template-columns:1fr}}
+
+/* ── SECTION LABEL ── */
+.sec-label{font-size:.68rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--gold-dim)}
+
+/* ── INPUT CARD ── */
+.input-card{background:var(--ink2);border:1px solid rgba(255,255,255,.06);padding:1.5rem;margin-bottom:1.5rem}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:480px){.fields{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:.4rem}
+.field label{font-size:.72rem;letter-spacing:.08em;color:var(--ash)}
+.field-wrap{position:relative}
+.field-prefix{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);font-size:.8rem;color:var(--gold);font-weight:500}
+.field input{width:100%;background:var(--ink3);border:1px solid rgba(255,255,255,.08);color:var(--white);font-family:var(--sans);font-size:.9rem;padding:.65rem .75rem .65rem 1.6rem;transition:border-color .2s;-moz-appearance:textfield}
+.field input:focus{outline:none;border-color:var(--gold)}
+.field input::-webkit-outer-spin-button,.field input::-webkit-inner-spin-button{-webkit-appearance:none}
+
+/* ── SLIDERS ── */
+.sliders{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+@media(max-width:480px){.sliders{grid-template-columns:1fr}}
+.slider-group{display:flex;flex-direction:column;gap:.5rem}
+.slider-top{display:flex;justify-content:space-between;align-items:center}
+.slider-name{font-size:.72rem;letter-spacing:.06em;color:var(--ash)}
+.slider-val{font-size:.9rem;font-weight:500;color:var(--gold)}
+input[type=range]{width:100%;height:2px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,.1);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--ink)}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--ink)}
+
+/* ── KPI GRID ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.05);margin-bottom:1.5rem}
+.kpi{background:var(--ink2);padding:1.25rem 1.5rem;position:relative}
+.kpi-label{font-size:.68rem;letter-spacing:.14em;color:var(--ash);text-transform:uppercase;margin-bottom:.3rem}
+.kpi-value{font-family:var(--serif);font-size:2.4rem;font-weight:300;line-height:1;margin-bottom:.2rem;transition:color .3s}
+.kpi-desc{font-size:.72rem;color:var(--ash);margin-bottom:.6rem}
+.kpi-bar{height:2px;background:rgba(255,255,255,.06)}
+.kpi-fill{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1),background .3s}
+.kpi-status{position:absolute;top:1rem;right:1rem;font-size:.62rem;letter-spacing:.1em;padding:2px 8px;border:1px solid;text-transform:uppercase}
+.kpi.good .kpi-value{color:var(--green)}
+.kpi.good .kpi-status{color:var(--green);border-color:rgba(46,122,80,.4);background:var(--green-bg)}
+.kpi.warn .kpi-value{color:var(--amber)}
+.kpi.warn .kpi-status{color:var(--amber);border-color:rgba(196,127,21,.4);background:var(--amber-bg)}
+.kpi.bad .kpi-value{color:var(--red)}
+.kpi.bad .kpi-status{color:var(--red);border-color:rgba(155,42,42,.4);background:var(--red-bg)}
+.kpi-full{grid-column:1/-1}
+
+/* ── VEREDICTO PRINCIPAL ── */
+.veredicto{padding:1.5rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:1.25rem;border:1px solid}
+.veredicto.good{background:var(--green-bg);border-color:rgba(46,122,80,.3)}
+.veredicto.warn{background:var(--amber-bg);border-color:rgba(196,127,21,.3)}
+.veredicto.bad{background:var(--red-bg);border-color:rgba(155,42,42,.3)}
+.v-icon{font-size:2rem;flex-shrink:0;margin-top:.1rem}
+.veredicto.good .v-icon{color:var(--green)}
+.veredicto.warn .v-icon{color:var(--amber)}
+.veredicto.bad .v-icon{color:var(--red)}
+.v-title{font-family:var(--serif);font-size:1.4rem;font-weight:600;margin-bottom:.3rem}
+.veredicto.good .v-title{color:var(--green)}
+.veredicto.warn .v-title{color:var(--amber)}
+.veredicto.bad .v-title{color:var(--red)}
+.v-msg{font-size:.82rem;color:rgba(240,236,227,.65);line-height:1.7}
+
+/* ── ESCENARIOS ── */
+.tabs{display:flex;gap:1px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.05);margin-bottom:1px}
+.tab{flex:1;padding:.75rem;text-align:center;font-size:.72rem;letter-spacing:.1em;cursor:pointer;background:var(--ink2);color:var(--ash);transition:all .2s;text-transform:uppercase}
+.tab:hover{background:var(--ink3)}
+.tab.active{background:var(--gold-faint);color:var(--gold);border-bottom:2px solid var(--gold)}
+.scenario-table{background:var(--ink2);border:1px solid rgba(255,255,255,.05);border-top:none;margin-bottom:1.5rem}
+.sc-row{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.04);font-size:.82rem}
+.sc-row:last-child{border-bottom:none}
+.sc-label{color:var(--ash)}
+.sc-right{display:flex;align-items:center;gap:.75rem}
+.sc-req{font-size:.7rem;color:var(--ash2)}
+.sc-val{font-weight:500;min-width:72px;text-align:right}
+.sc-ok{color:var(--green)}
+.sc-fail{color:var(--red)}
+.sc-total{background:rgba(201,168,76,.05);border-top:1px solid var(--gold-dim) !important}
+.sc-total .sc-label{color:var(--white);font-weight:500}
+.sc-total .sc-val{color:var(--gold);font-size:.95rem}
+
+/* ── FLUJO CAJA ── */
+.flujo-card{background:var(--ink2);border:1px solid rgba(255,255,255,.06);padding:1.5rem;margin-bottom:1.5rem}
+.flujo-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.83rem}
+.flujo-row:last-child{border-bottom:none;padding-top:.75rem;margin-top:.25rem}
+.flujo-label{color:var(--ash)}
+.flujo-val{font-weight:500;color:var(--white)}
+.flujo-total .flujo-label{color:var(--white);font-weight:500;font-size:.9rem}
+.flujo-total .flujo-val{font-family:var(--serif);font-size:1.5rem;font-weight:300}
+.flujo-pos{color:var(--green)}
+.flujo-neg{color:var(--red)}
+
+/* ── CTA ── */
+.cta{background:var(--ink2);border:1px solid var(--gold-dim);padding:2rem;text-align:center;margin-top:2rem}
+.cta-top{font-size:.68rem;letter-spacing:.25em;color:var(--gold);margin-bottom:1rem}
+.cta-title{font-family:var(--serif);font-size:clamp(1.3rem,3vw,1.8rem);font-weight:300;color:var(--white);margin-bottom:.6rem}
+.cta-sub{font-size:.8rem;color:var(--ash);line-height:1.7;max-width:380px;margin:0 auto 1.5rem}
+.wa-btn{display:inline-flex;align-items:center;gap:.75rem;background:#1a7c3e;color:#fff;font-family:var(--sans);font-size:.75rem;letter-spacing:.12em;padding:14px 28px;border:none;cursor:pointer;text-decoration:none;transition:background .2s}
+.wa-btn:hover{background:#15692f}
+.wa-icon{width:18px;height:18px;fill:#fff;flex-shrink:0}
+.cta-note{font-size:.68rem;color:var(--ash);margin-top:1rem;letter-spacing:.05em}
+
+/* ── DISCLAIMER ── */
+.disclaimer{font-size:.68rem;color:var(--ash2);text-align:center;padding:1.5rem 2rem;line-height:1.6;border-top:1px solid rgba(255,255,255,.04);margin-top:1rem}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-brand">AJUCOM</div>
+    <div class="header-sub">INMOBILIARIA · CALI</div>
+  </div>
+  <div style="font-size:.7rem;letter-spacing:.12em;color:var(--ash)">ANÁLISIS EN TIEMPO REAL</div>
+</div>
+
+<!-- HERO -->
+<div class="hero-strip">
+  <div style="max-width:900px;margin:0 auto">
+    <h1>Calculadora de<br><em>Rentabilidad</em> Inmobiliaria</h1>
+    <p>Ingresa los datos del inmueble y obtén al instante las métricas clave para saber si vale la pena invertir.</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- INPUTS -->
+  <div class="sec-label">Datos del inmueble</div>
+  <div class="input-card">
+    <div class="fields">
+      <div class="field">
+        <label>Precio de compra</label>
+        <div class="field-wrap">
+          <span class="field-prefix">$</span>
+          <input type="number" id="precio" value="400000000" step="10000000">
+        </div>
+      </div>
+      <div class="field">
+        <label>Canon de arriendo mensual</label>
+        <div class="field-wrap">
+          <span class="field-prefix">$</span>
+          <input type="number" id="renta" value="2800000" step="100000">
+        </div>
+      </div>
+      <div class="field">
+        <label>Capital propio invertido</label>
+        <div class="field-wrap">
+          <span class="field-prefix">$</span>
+          <input type="number" id="capital" value="150000000" step="10000000">
+        </div>
+      </div>
+      <div class="field">
+        <label>Cuota crédito anual (0 si es contado)</label>
+        <div class="field-wrap">
+          <span class="field-prefix">$</span>
+          <input type="number" id="deuda" value="0" step="1000000">
+        </div>
+      </div>
+    </div>
+    <div class="sliders">
+      <div class="slider-group">
+        <div class="slider-top">
+          <span class="slider-name">Vacancia estimada</span>
+          <span class="slider-val" id="vac-out">8%</span>
+        </div>
+        <input type="range" id="vacancia" min="0" max="30" value="8" step="1">
+      </div>
+      <div class="slider-group">
+        <div class="slider-top">
+          <span class="slider-name">Gastos operativos</span>
+          <span class="slider-val" id="costo-out">20%</span>
+        </div>
+        <input type="range" id="costos" min="5" max="50" value="20" step="1">
+      </div>
+    </div>
+  </div>
+
+  <!-- VEREDICTO -->
+  <div class="sec-label">Veredicto</div>
+  <div id="veredicto-box"></div>
+
+  <!-- KPIs -->
+  <div class="sec-label">Métricas clave</div>
+  <div class="kpi-grid" id="kpi-grid"></div>
+
+  <!-- FLUJO DE CAJA -->
+  <div class="sec-label">Flujo de caja anual</div>
+  <div class="flujo-card" id="flujo-card"></div>
+
+  <!-- ESCENARIOS -->
+  <div class="sec-label">Escenario de análisis</div>
+  <div class="tabs">
+    <div class="tab active" id="tab-c" onclick="setTab('c')">Conservador</div>
+    <div class="tab" id="tab-b" onclick="setTab('b')">Moderado</div>
+    <div class="tab" id="tab-a" onclick="setTab('a')">Agresivo</div>
+  </div>
+  <div class="scenario-table" id="scenario-table"></div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-top">PRÓXIMO PASO</div>
+    <div class="cta-title">¿Encontraste una oportunidad interesante?</div>
+    <div class="cta-sub">En AJUCOM te acompañamos a analizar, negociar y cerrar la inversión correcta en Cali. Sin apresurarte.</div>
+    <a class="wa-btn" href="https://wa.me/573332488562?text=Hola%20Nico%2C%20acab%C3%A9%20de%20usar%20la%20calculadora%20de%20AJUCOM%20y%20quisiera%20hablar%20sobre%20una%20inversi%C3%B3n%20en%20Cali." target="_blank">
+      <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      HABLAR CON NICO
+    </a>
+    <div class="cta-note">Nico · AJUCOM Inmobiliaria · Sin compromiso</div>
+  </div>
+
+  <div class="disclaimer">* Herramienta educativa. Los cálculos se basan en los datos ingresados por el usuario. Para decisiones de inversión, consulta siempre con un asesor calificado.</div>
+</div>
+
+<script>
+let currentTab = 'c';
+const fmt = n => '$' + Math.round(n).toLocaleString('es-CO');
+const fmtP = n => n.toFixed(2) + '%';
+const fmtX = n => n.toFixed(2) + 'x';
+
+const scenarios = {
+  c: {label:'Conservador', rentMin:5,  roiMin:10, capMin:5,  grmMax:14, dscMin:1.1, cocMin:6},
+  b: {label:'Moderado',    rentMin:7,  roiMin:15, capMin:7,  grmMax:11, dscMin:1.25,cocMin:10},
+  a: {label:'Agresivo',    rentMin:10, roiMin:22, capMin:9,  grmMax:9,  dscMin:1.5, cocMin:16},
+};
+
+function getStatus(metric, val) {
+  if (metric==='grm') {
+    if(val<=8)  return 'good';
+    if(val<=12) return 'warn';
+    return 'bad';
+  }
+  if (metric==='dscr') {
+    if(val>=1.5) return 'good';
+    if(val>=1.1) return 'warn';
+    return 'bad';
+  }
+  const t = {rentBruta:{g:8,w:5},rentNeta:{g:5,w:3},roi:{g:20,w:12},capRate:{g:8,w:5},coc:{g:12,w:7}};
+  const r = t[metric];
+  if(!r) return '';
+  if(val>=r.g) return 'good';
+  if(val>=r.w) return 'warn';
+  return 'bad';
+}
+
+function statusLabel(s){return{good:'Excelente',warn:'Aceptable',bad:'Bajo','':'–'}[s]||''}
+function statusColor(s){return{good:'var(--green)',warn:'var(--amber)',bad:'var(--red)','':'var(--ash)'}[s]||'var(--ash)'}
+
+function calc() {
+  const precio  = +document.getElementById('precio').value  || 0;
+  const renta   = +document.getElementById('renta').value   || 0;
+  const capital = +document.getElementById('capital').value || 0;
+  const deuda   = +document.getElementById('deuda').value   || 0;
+  const vacP    = +document.getElementById('vacancia').value;
+  const costP   = +document.getElementById('costos').value;
+
+  document.getElementById('vac-out').textContent   = vacP + '%';
+  document.getElementById('costo-out').textContent = costP + '%';
+
+  const rentaAnual    = renta * 12;
+  const rentaEfectiva = rentaAnual * (1 - vacP/100);
+  const gastos        = rentaEfectiva * (costP/100);
+  const noi           = rentaEfectiva - gastos;
+  const flujoAnual    = noi - deuda;
+
+  const rentBruta = precio  > 0 ? (rentaAnual/precio)*100  : 0;
+  const rentNeta  = precio  > 0 ? (noi/precio)*100         : 0;
+  const capRate   = precio  > 0 ? (noi/precio)*100         : 0;
+  const grm       = rentaAnual > 0 ? precio/rentaAnual     : 0;
+  const roi       = capital > 0 ? (noi/capital)*100        : 0;
+  const coc       = capital > 0 ? (flujoAnual/capital)*100 : 0;
+  const dscr      = deuda   > 0 ? noi/deuda : (noi>0?99:0);
+
+  renderVeredicto(rentBruta, rentNeta, roi, capRate, grm, coc, dscr);
+  renderKPIs(rentBruta, rentNeta, roi, capRate, grm, coc, dscr);
+  renderFlujo(rentaAnual, rentaEfectiva, gastos, noi, deuda, flujoAnual);
+  renderScenario(currentTab, rentBruta, rentNeta, roi, capRate, grm, coc, dscr);
+}
+
+function renderVeredicto(rb, rn, roi, cap, grm, coc, dscr) {
+  const scores = [
+    getStatus('rentBruta',rb), getStatus('rentNeta',rn),
+    getStatus('roi',roi), getStatus('capRate',cap),
+    getStatus('grm',grm), getStatus('coc',coc), getStatus('dscr',dscr)
+  ];
+  const good = scores.filter(s=>s==='good').length;
+  const bad  = scores.filter(s=>s==='bad').length;
+  const total = scores.length;
+
+  let cls, icon, title, msg;
+  if(good >= 5){
+    cls='good'; icon='✓';
+    title='Inversión sólida';
+    msg='La mayoría de métricas están en zona verde. Los números justifican analizar esta oportunidad en profundidad. '+good+' de '+total+' indicadores son excelentes.';
+  } else if(bad >= 4){
+    cls='bad'; icon='✗';
+    title='No recomendada por ahora';
+    msg='Varios indicadores críticos están en zona roja. Revisa el precio de compra o el canon de arriendo antes de avanzar. '+bad+' de '+total+' indicadores son bajos.';
+  } else {
+    cls='warn'; icon='⚠';
+    title='Analiza con cuidado';
+    msg='Algunos indicadores están bien pero otros requieren atención. Negocia condiciones o ajusta los supuestos antes de decidir. '+good+' excelentes, '+bad+' bajos de '+total+'.';
+  }
+
+  document.getElementById('veredicto-box').innerHTML = `
+    <div class="veredicto ${cls}">
+      <div class="v-icon">${icon}</div>
+      <div>
+        <div class="v-title">${title}</div>
+        <div class="v-msg">${msg}</div>
+      </div>
+    </div>`;
+}
+
+function renderKPIs(rb, rn, roi, cap, grm, coc, dscr) {
+  const kpis = [
+    {metric:'rentBruta', label:'Rentabilidad bruta', val:fmtP(rb),  desc:'Ingreso bruto / precio compra',    bar:Math.min(rb/15*100,100)},
+    {metric:'rentNeta',  label:'Rentabilidad neta',  val:fmtP(rn),  desc:'Después de vacancia y gastos',    bar:Math.min(rn/12*100,100)},
+    {metric:'roi',       label:'ROI sobre capital',  val:fmtP(roi), desc:'Retorno sobre tu dinero puesto',  bar:Math.min(Math.max(roi,0)/30*100,100)},
+    {metric:'capRate',   label:'Cap Rate',            val:fmtP(cap), desc:'Sin contar financiación',          bar:Math.min(cap/12*100,100)},
+    {metric:'grm',       label:'GRM',                 val:fmtX(grm), desc:'Años para recuperar por arriendo',bar:Math.max(0,100-Math.min(grm/20*100,100))},
+    {metric:'coc',       label:'Cash-on-Cash',        val:fmtP(coc), desc:'Flujo neto / capital invertido',  bar:Math.min(Math.max(coc,0)/25*100,100)},
+    {metric:'dscr',      label:'Cobertura de deuda',  val:dscr>=99?'N/A':fmtX(Math.max(dscr,0)), desc:'NOI / cuota crédito anual', bar:Math.min(Math.max(dscr>=99?2:dscr,0)/2*100,100)},
+  ];
+
+  document.getElementById('kpi-grid').innerHTML = kpis.map(k => {
+    const s = getStatus(k.metric, k.metric==='dscr'&&dscr>=99?99:parseFloat(k.val));
+    const col = statusColor(s);
+    return `<div class="kpi ${s}">
+      <div class="kpi-label">${k.label}</div>
+      ${s ? `<div class="kpi-status">${statusLabel(s)}</div>` : ''}
+      <div class="kpi-value">${k.val}</div>
+      <div class="kpi-desc">${k.desc}</div>
+      <div class="kpi-bar"><div class="kpi-fill" style="width:${k.bar.toFixed(0)}%;background:${col}"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function renderFlujo(rentaAnual, rentaEf, gastos, noi, deuda, flujo) {
+  const flujoCls = flujo >= 0 ? 'flujo-pos' : 'flujo-neg';
+  document.getElementById('flujo-card').innerHTML = `
+    <div class="flujo-row"><span class="flujo-label">Renta bruta anual</span><span class="flujo-val">${fmt(rentaAnual)}</span></div>
+    <div class="flujo-row"><span class="flujo-label">— Vacancia estimada</span><span class="flujo-val" style="color:var(--red)">− ${fmt(rentaAnual-rentaEf)}</span></div>
+    <div class="flujo-row"><span class="flujo-label">— Gastos operativos</span><span class="flujo-val" style="color:var(--red)">− ${fmt(gastos)}</span></div>
+    <div class="flujo-row"><span class="flujo-label">= NOI (ingreso operativo neto)</span><span class="flujo-val" style="color:var(--gold)">${fmt(noi)}</span></div>
+    <div class="flujo-row"><span class="flujo-label">— Cuota crédito anual</span><span class="flujo-val" style="color:var(--red)">− ${fmt(deuda)}</span></div>
+    <div class="flujo-row flujo-total"><span class="flujo-label">= Flujo de caja neto anual</span><span class="flujo-val ${flujoCls}">${fmt(flujo)}</span></div>`;
+}
+
+function renderScenario(tab, rb, rn, roi, cap, grm, coc, dscr) {
+  const s = scenarios[tab];
+  const rows = [
+    {label:'Rentabilidad neta',    req:'≥ '+s.rentMin+'%',  actual:fmtP(rn),                      ok:rn>=s.rentMin},
+    {label:'ROI sobre capital',    req:'≥ '+s.roiMin+'%',   actual:fmtP(roi),                     ok:roi>=s.roiMin},
+    {label:'Cap Rate',             req:'≥ '+s.capMin+'%',   actual:fmtP(cap),                     ok:cap>=s.capMin},
+    {label:'GRM',                  req:'≤ '+s.grmMax+'x',   actual:fmtX(grm),                     ok:grm<=s.grmMax},
+    {label:'Cobertura de deuda',   req:'≥ '+s.dscMin+'x',   actual:dscr>=99?'N/A':fmtX(Math.max(dscr,0)), ok:dscr>=s.dscMin},
+    {label:'Cash-on-Cash',         req:'≥ '+s.cocMin+'%',   actual:fmtP(coc),                     ok:coc>=s.cocMin},
+  ];
+  const pass = rows.filter(r=>r.ok).length;
+  const total = rows.length;
+
+  document.getElementById('scenario-table').innerHTML =
+    rows.map(r=>`
+      <div class="sc-row">
+        <span class="sc-label">${r.label}</span>
+        <div class="sc-right">
+          <span class="sc-req">${r.req}</span>
+          <span class="sc-val ${r.ok?'sc-ok':'sc-fail'}">${r.actual} ${r.ok?'✓':'✗'}</span>
+        </div>
+      </div>`).join('') +
+    `<div class="sc-row sc-total">
+      <span class="sc-label">Criterios cumplidos — ${s.label}</span>
+      <span class="sc-val">${pass} / ${total}</span>
+    </div>`;
+}
+
+function setTab(t) {
+  currentTab = t;
+  ['c','b','a'].forEach(x => {
+    document.getElementById('tab-'+x).className = 'tab' + (x===t?' active':'');
+  });
+  calc();
+}
+
+['precio','renta','capital','deuda'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
+['vacancia','costos'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
+calc();
+</script>
+</body>
+</html>
